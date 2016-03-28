@@ -5,12 +5,14 @@ const B = 1
 const X = 2
 const Y = 3
 
-const delay = 500
-
+const delay = 1000 
 var combo = []
 var timeout
 var states = [false, false, false, false]
+var selected
+var cooldowns = []
 
+var activeSpells = {}
 const spells = {
   ice: {
     x: {
@@ -98,20 +100,41 @@ const spells = {
   },
 }
 
+function wasPressed(pad, i) {
+  var state = pad.buttons[i].value
+  if(state && !states[i]) {
+    return states[i] = true
+  } else if(!state && states[i]) {
+    states[i] = false
+  }
+}
+
 function pollPad() {
   const pad = navigator.getGamepads()[0]
+
+  if(Math.abs(pad.axes[2]) + Math.abs(pad.axes[3]) > 0.2 && selected) {
+    // Make cooldown
+    var parent = getNodeRaw(selected)
+    if(cooldowns.indexOf(parent) < 0) {
+      var amount = activeSpells[selected[0]][selected[1]].cooldown
+      var cooldown = $('div', 'cooldown')
+      cooldown.setAttribute('style', 'animation-duration: ' + amount + 'ms;')
+      parent.appendChild(cooldown)
+      cooldowns.push(parent)
+      setTimeout(function() {
+        parent.removeChild(cooldown)
+        cooldowns.splice(cooldowns.indexOf(parent), 1)
+      }, amount)
+    }
+  }
+
   for(var i = 1; i < 5; i++) {
     var state = pad.buttons[i].value
-    if(state && !states[i]) {
-      states[i] = true
-    } else if(!state && states[i]) {
-      states[i] = false
-      continue
-    } else {
-      continue
-    }
+    if(!wasPressed(pad, i)) continue
     combo.push(i)
+
     if(combo.length === 1) {
+      // Flash school
       getNode(combo).classList.add('flash')
       var _combo = combo.slice(0)
       setTimeout(function() {
@@ -121,19 +144,29 @@ function pollPad() {
         combo = []
       }, delay)
     } else if(combo.length === 2) {
+      // Select spell
       clear('flash')
       clear('active')
       clearTimeout(timeout)
       getNode(combo).classList.add('active')
+      selected = getButtons(combo)
       combo = []
     }
   }
   window.requestAnimationFrame(pollPad)
 }
 
+function getButtons(combo) {
+  return combo.map(function(btn){ return buttons[btn] })
+}
+
 function getNode(combo) {
+  return getNodeRaw(getButtons(combo))
+}
+
+function getNodeRaw(combo) {
   var query = combo
-    .map(function(btn){ return '.' + buttons[btn] })
+    .map(function(btn) { return '.' + btn })
     .join(' ')
   return document.body.querySelector('.buttons' + query) ||
     document.getElementById('dummy')
@@ -181,14 +214,23 @@ function structure(cls, name) {
   return $('section', cls, [
     $('h3', null, name),
     $('div', ['buttons', cls], [
-      $('div', ['button', 'x'], struct.x.name),
-      $('div', ['button', 'y'], struct.y.name),
-      $('div', ['button', 'b'], struct.b.name)
+      $('div', 'row', [
+        $('div', ['button', 'y'], struct.y.name)
+      ]),
+      $('div', 'row', [
+        $('div', ['button', 'x'], struct.x.name),
+        $('div', ['button', 'b'], struct.b.name)
+      ])
     ])
   ])
 }
 
 function build(struct) {
+  activeSpells = {
+    x: spells[struct.x],
+    y: spells[struct.y],
+    b: spells[struct.b],
+  }
   reset()
   $top().appendChild(structure('y', struct.y)) 
   $middle().appendChild(structure('x', struct.x)) 
@@ -205,6 +247,7 @@ function retry() {
   try {
     pollPad()
   } catch(e) {
+    console.error(e)
     setTimeout(retry, 1000)
   }
 }

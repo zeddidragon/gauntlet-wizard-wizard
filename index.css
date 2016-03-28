@@ -21,7 +21,7 @@ h3 {
 
 .buttons {
   border: thin solid;
-  padding: 1em;
+  padding-bottom: 1.2em;
   display: flex;
   flex-direction: column;
 }
@@ -33,12 +33,7 @@ h3 {
 
 .flash.buttons {
   animation-name: flash;
-  animation-duration: 0.5s;
-}
-
-.flash.button:before {
-  animation-name: flash;
-  animation-duration: 0.5s;
+  animation-duration: 1s;
 }
 
 .active {
@@ -49,6 +44,7 @@ h3 {
 .button {
   padding: 0.5em;
   border-radius: 0.5em;
+  position: relative;
 }
 
 .button::before {
@@ -64,7 +60,6 @@ h3 {
 
 .x {
   border-color: blue;
-  align-self: flex-start;
   order: 1;
   text-align: left;
   content: ' ';
@@ -76,7 +71,6 @@ h3 {
 
 .y {
   border-color: orange;
-  align-self: center;
   order: 0;
   text-align: center;
 }
@@ -87,7 +81,6 @@ h3 {
 
 .b {
   border-color: red;
-  align-self: flex-end;
   order: 2;
   text-align: right;
 }
@@ -98,5 +91,25 @@ h3 {
 
 #dummy {
   display: none;
+}
+
+@keyframes cooldown {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0;
+  }
+}
+
+.cooldown {
+  position: absolute;
+  margin-top: 0.5em;
+  left: -0.25em;
+  width: 0;
+  height: 1em;
+  background-color: red;
+  animation-name: cooldown;
+  animation-timing-function: linear;
 }
 
