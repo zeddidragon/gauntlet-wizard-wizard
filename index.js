@@ -6,6 +6,9 @@ const X = 2
 const Y = 3
 
 const delay = 1000 
+
+function noop(){}
+
 var combo = []
 var timeout
 var states = [false, false, false, false]
@@ -100,6 +103,29 @@ const spells = {
   },
 }
 
+spellbooks = {
+  merlins: {
+    x: 'ice',
+    y: 'fire',
+    b: 'lightning'
+  },
+  sinister: {
+    x: 'demon',
+    y: 'fire',
+    b: 'lightning'
+  },
+  mystic: {
+    x: 'ice',
+    y: 'channeling',
+    b: 'lightning'
+  },
+  hollow: {
+    x: 'ice',
+    y: 'fire',
+    b: 'void'
+  }
+}
+
 function wasPressed(pad, i) {
   var state = pad.buttons[i].value
   if(state && !states[i]) {
@@ -190,6 +216,10 @@ function $middle() {
   return document.getElementById('middle')
 }
 
+function $books() {
+  return document.getElementById('books')
+}
+
 function reset() {
   $top().innerHTML = ''
   $middle().innerHTML = ''
@@ -240,10 +270,24 @@ function build(struct) {
   $middle().appendChild(structure('b', struct.b)) 
 }
 
+var books = ['merlins', 'sinister', 'mystic', 'hollow']
+function buildMenu() {
+  books.forEach(function(book){
+    var btn = $('div', 'book', book)
+    btn.setAttribute('name', book)
+    btn.addEventListener('click', function() {
+      selectSpellbook(book)
+    })
+    $books().appendChild(btn)
+  })
+}
 
-window.onload = function init() {
-  build({x: 'ice', y: 'fire', b: 'void'})
-  retry()
+function selectSpellbook(book) {
+  var btn = document.querySelector('.book[name="' + book + '"]')
+  clear('current')
+  btn.classList.add('current')
+  build(spellbooks[book])
+  localStorage.setItem('spelbook', book)
 }
 
 function retry() {
@@ -269,5 +313,11 @@ window.addEventListener('mouseup', function() {
   isMoving = false
 })
 
-overwolf.windows.setTopmost('MainWindow', true, function(){})
+overwolf.windows.setTopmost('MainWindow', true, noop)
 
+
+window.onload = function init() {
+  buildMenu()
+  selectSpellbook(localStorage.getItem('spellbook') || 'merlins')
+  retry()
+}
