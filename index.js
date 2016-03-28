@@ -11,6 +11,93 @@ var combo = []
 var timeout
 var states = [false, false, false, false]
 
+const spells = {
+  ice: {
+    x: {
+      name: 'Beam',
+      cooldown: 0
+    },
+    y: {
+      name: 'Achoo',
+      cooldown: 3000
+    },
+    z: {
+      name: 'Sphere',
+      cooldown: 20000
+    }
+  },
+  fire: {
+    x: {
+      name: 'Dodge
+      cooldown: 6000
+    },
+    y: {
+      name: 'Bolt',
+      cooldown: 0
+    },
+    z: {
+      name: 'Mortar',
+      cooldown: 2000
+    }
+  },
+  lightning: {
+    x: {
+      name: 'Chain',
+      cooldown: 0
+    },
+    y: {
+      name: 'Blast',
+      cooldown: 0
+    },
+    z: {
+      name: 'Barrier',
+      cooldown: 20000
+    }
+  },
+  demon: {
+    x: {
+      name: 'Hellfire
+      cooldown: 0
+    },
+    y: {
+      name: 'Searing',
+      cooldown: 5000
+    },
+    z: {
+      name: 'Orb',
+      cooldown: 20000
+    }
+  },
+  channeling: {
+    x: {
+      name: 'Rift',
+      cooldown: 6000
+    },
+    y: {
+      name: 'Repeater',
+      cooldown: 0
+    },
+    z: {
+      name: 'Barrage',
+      cooldown: 10000
+    }
+  },
+  void: {
+    x: {
+      name: 'Torrent',
+      cooldown: 0
+    },
+    y: {
+      name: 'Vaacum',
+      cooldown: 8000
+    },
+    z: {
+      name: 'Stealth',
+      cooldown: 12000
+    }
+  },
+}
+
 function pollPad() {
   const pad = navigator.getGamepads()[0]
   for(var i = 1; i < 5; i++) {
@@ -60,3 +147,4 @@ function clear(cls) {
 }
 
 pollPad()
+build({x: 'ice', y: 'fire', b: 'void'})
