@@ -21,21 +21,21 @@ const spells = {
       name: 'Achoo',
       cooldown: 3000
     },
-    z: {
+    b: {
       name: 'Sphere',
       cooldown: 20000
     }
   },
   fire: {
     x: {
-      name: 'Dodge
+      name: 'Dodge',
       cooldown: 6000
     },
     y: {
       name: 'Bolt',
       cooldown: 0
     },
-    z: {
+    b: {
       name: 'Mortar',
       cooldown: 2000
     }
@@ -49,21 +49,21 @@ const spells = {
       name: 'Blast',
       cooldown: 0
     },
-    z: {
+    b: {
       name: 'Barrier',
       cooldown: 20000
     }
   },
   demon: {
     x: {
-      name: 'Hellfire
+      name: 'Hellfire',
       cooldown: 0
     },
     y: {
       name: 'Searing',
       cooldown: 5000
     },
-    z: {
+    b: {
       name: 'Orb',
       cooldown: 20000
     }
@@ -77,7 +77,7 @@ const spells = {
       name: 'Repeater',
       cooldown: 0
     },
-    z: {
+    b: {
       name: 'Barrage',
       cooldown: 10000
     }
@@ -91,7 +91,7 @@ const spells = {
       name: 'Vaacum',
       cooldown: 8000
     },
-    z: {
+    b: {
       name: 'Stealth',
       cooldown: 12000
     }
@@ -146,5 +146,66 @@ function clear(cls) {
   }
 }
 
-pollPad()
-build({x: 'ice', y: 'fire', b: 'void'})
+function $top() {
+  return document.getElementById('top')
+}
+
+function $middle() {
+  return document.getElementById('middle')
+}
+
+function reset() {
+  $top().innerHTML = ''
+  $middle().innerHTML = ''
+}
+
+function $(name, classes, content) {
+  var ret = document.createElement(name)
+  if(Array.isArray(content)) {
+    for(var i = 0; i < content.length; i++) {
+      ret.appendChild(content[i])
+    }
+  } else if(content) {
+    ret.innerHTML = content
+  }
+  classes || (classes = [])
+  if(!Array.isArray(classes)) classes = [classes]
+  for(var i = 0; i < classes.length; i++)  {
+    ret.classList.add(classes[i])
+  }
+  return ret
+}
+
+function structure(cls, name) {
+  var struct = spells[name]
+  return $('section', cls, [
+    $('h3', null, name),
+    $('div', ['buttons', cls], [
+      $('div', ['button', 'x'], struct.x.name),
+      $('div', ['button', 'y'], struct.y.name),
+      $('div', ['button', 'b'], struct.b.name)
+    ])
+  ])
+}
+
+function build(struct) {
+  reset()
+  $top().appendChild(structure('y', struct.y)) 
+  $middle().appendChild(structure('x', struct.x)) 
+  $middle().appendChild(structure('b', struct.b)) 
+}
+
+
+window.onload = function init() {
+  build({x: 'ice', y: 'fire', b: 'void'})
+  retry()
+}
+
+function retry() {
+  try {
+    pollPad()
+  } catch(e) {
+    setTimeout(retry, 1000)
+  }
+}
+

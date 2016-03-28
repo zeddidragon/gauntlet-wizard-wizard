@@ -11,6 +11,12 @@ html {
 section {
   flex: 1;
   max-width: 40%;
+  position: relative;
+}
+
+h3 {
+  position: absolute;
+  left: 0.5em;
 }
 
 .buttons {
