@@ -1,0 +1,25 @@
+{
+   "manifest_version": 1,
+   "type": "WebAp",
+   "meta": {
+      "name": "gauntlet-wizard-wizard",
+      "version": "1.0.0",
+      "author": "Zeddy",
+      "icon": "IconMouseOver.png",
+      "icon_gray": "IconMouseNormal.png",
+      "description": "Helps you be a gauntlet wizard"
+   },
+   "data": {
+      "start_window": "MainWindow",
+      "windows": {
+   	   "MainWindow": {
+           "file": "Files/index.html",
+           "transparent": true,
+           "resizable": true,
+           "size": {"width": 320, "height": 320},
+           "min_size": {"width": 200, "height": 200},
+           "max_size": {"width": 600, "height": 500}
+        }
+      }
+   }
+}

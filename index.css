@@ -1,0 +1,96 @@
+html {
+  color: white;
+  background-color: black;
+}
+
+.row {
+  display: flex;
+  justify-content: space-around;
+}
+
+section {
+  flex: 1;
+  max-width: 40%;
+}
+
+.buttons {
+  border: thin solid;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes flash {
+  from  { background-color: white; }
+  to  { background-color: rgba(0, 0, 0, 0); }
+}
+
+.flash.buttons {
+  animation-name: flash;
+  animation-duration: 0.5s;
+}
+
+.flash.button:before {
+  animation-name: flash;
+  animation-duration: 0.5s;
+}
+
+.active {
+  color: black;
+  background-color: white;
+}
+
+.button {
+  padding: 0.5em;
+  border-radius: 0.5em;
+}
+
+.button::before {
+  border-radius: 50%;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  content: ' ';
+  color: black;
+  padding: 0.2em;
+  text-align: center;
+}
+
+.x {
+  border-color: blue;
+  align-self: flex-start;
+  order: 1;
+  text-align: left;
+  content: ' ';
+}
+.button.x::before {
+  content: 'X';
+  background-color: blue;
+}
+
+.y {
+  border-color: orange;
+  align-self: center;
+  order: 0;
+  text-align: center;
+}
+.button.y::before {
+  content: 'Y';
+  background-color: orange;
+}
+
+.b {
+  border-color: red;
+  align-self: flex-end;
+  order: 2;
+  text-align: right;
+}
+.button.b::before {
+  content: 'B';
+  background-color: red;
+}
+
+#dummy {
+  display: none;
+}
+
