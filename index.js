@@ -269,3 +269,5 @@ window.addEventListener('mouseup', function() {
   isMoving = false
 })
 
+overwolf.windows.setTopmost('MainWindow', true, function(){})
+
