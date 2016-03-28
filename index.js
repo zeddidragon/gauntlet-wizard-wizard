@@ -249,9 +249,10 @@ window.onload = function init() {
 function retry() {
   try {
     pollPad()
+    var instructions = document.getElementById('instructions')
+    instructions.parentNode.removeChild(instructions)
   } catch(e) {
-    console.error(e)
-    setTimeout(retry, 1000)
+    setTimeout(retry, 200)
   }
 }
 

@@ -4,6 +4,7 @@ body {
   font-size: 12px;
   user-select: none;
   cursor: pointer;
+  color: white;
 }
 
 .row {
@@ -18,7 +19,6 @@ section {
   flex: 1;
   max-width: 40%;
   position: relative;
-  color: white;
 }
 
 h3 {
@@ -125,5 +125,14 @@ h3 {
   background-color: red;
   animation-name: cooldown;
   animation-timing-function: linear;
+}
+
+#instructions {
+  position: absolute;
+  top: 50%;
+  width: 90%;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  border: medium solid white;
 }
 
