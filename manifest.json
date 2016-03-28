@@ -1,24 +1,23 @@
 {
    "manifest_version": 1,
-   "type": "WebAp",
+   "type": "WebApp",
    "meta": {
       "name": "gauntlet-wizard-wizard",
-      "version": "1.0.0",
+      "version": "1.0.1",
+      "minimum-overwolf-version": "0.77.10",
       "author": "Zeddy",
-      "icon": "IconMouseOver.png",
-      "icon_gray": "IconMouseNormal.png",
+      "icon": "icon.png",
+      "icon_gray": "icon-gray.png",
       "description": "Helps you be a gauntlet wizard"
    },
    "data": {
       "start_window": "MainWindow",
       "windows": {
-   	   "MainWindow": {
-           "file": "Files/index.html",
+         "MainWindow": {
+           "file": "index.html",
            "transparent": true,
            "resizable": true,
-           "size": {"width": 320, "height": 320},
-           "min_size": {"width": 200, "height": 200},
-           "max_size": {"width": 600, "height": 500}
+           "size": {"width": 400, "height": 240}
         }
       }
    }
