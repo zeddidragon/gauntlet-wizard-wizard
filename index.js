@@ -256,3 +256,16 @@ function retry() {
   }
 }
 
+
+window.addEventListener('mousedown', function(e) {
+  if(e.ctrlKey) {
+    overwolf.windows.dragResize('MainWindow', 'BottomRight')
+  } else {
+    overwolf.windows.dragMove('MainWindow')
+  }
+})
+
+window.addEventListener('mouseup', function() {
+  isMoving = false
+})
+

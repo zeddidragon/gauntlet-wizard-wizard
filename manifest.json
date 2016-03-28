@@ -16,9 +16,8 @@
          "MainWindow": {
            "file": "index.html",
            "transparent": true,
-           "size": {"width": 400, "height": 240},
-           "min_size": {"width": 400, "height": 240},
-           "max_size": {"width": 800, "height": 480}
+           "resizable": true,
+           "size": {"width": 400, "height": 240}
         }
       }
    }
