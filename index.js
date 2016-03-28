@@ -115,10 +115,13 @@ function pollPad() {
   if(Math.abs(pad.axes[2]) + Math.abs(pad.axes[3]) > 0.2 && selected) {
     // Make cooldown
     var parent = getNodeRaw(selected)
-    if(cooldowns.indexOf(parent) < 0) {
-      var amount = activeSpells[selected[0]][selected[1]].cooldown
-      var cooldown = $('div', 'cooldown')
-      cooldown.setAttribute('style', 'animation-duration: ' + amount + 'ms;')
+    var amount = activeSpells[selected[0]][selected[1]].cooldown
+    if(cooldowns.indexOf(parent) < 0 && amount) {
+      var cooldownbar;
+      var cooldown = $('div', 'cooldown', [
+        cooldownbar = $('div', 'bar')
+      ])
+      cooldownbar.setAttribute('style', 'animation-duration: ' + amount + 'ms;')
       parent.appendChild(cooldown)
       cooldowns.push(parent)
       setTimeout(function() {
