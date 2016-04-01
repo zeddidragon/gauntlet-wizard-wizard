@@ -182,7 +182,6 @@ function pollPad() {
       combo = []
     }
   }
-  window.requestAnimationFrame(pollPad)
 }
 
 function getButtons(combo) {
@@ -290,14 +289,46 @@ function selectSpellbook(book) {
   localStorage.setItem('spellbook', book)
 }
 
-function retry() {
+function buildInstructions() {
+  var node = document.getElementById('instructions')
+  if(node) return
+  var node = document.createElement('h2')
+  node.id = 'instructions'
+  node.textContent = 'Click in the window and use buttons until this text goes away.'
+  document.body.appendChild(node)
+}
+
+function removeInstructions() {
+  var instructions = document.getElementById('instructions')
+  instructions && instructions.parentNode.removeChild(instructions)
+  var error = document.getElementById('error')
+  error && error.parentNode.removeChild(error)
+}
+
+function appendError(e) {
+  var node = document.getElementById('error')
+  if(node) return
+  var node = document.createElement('h2')
+  node.id = 'error'
+  node.textContent = e.message
+  document.body.appendChild(node)
+}
+
+function tryPoll() {
   try {
     pollPad()
-    var instructions = document.getElementById('instructions')
-    instructions.parentNode.removeChild(instructions)
+    requestAnimationFrame(tryPoll)
+    return true
   } catch(e) {
-    setTimeout(retry, 200)
+    console.error(e.stack)
+    appendError(e)
+    requestAnimationFrame(retry)
   }
+}
+
+function retry() {
+  buildInstructions()
+  if(tryPoll()) removeInstructions()
 }
 
 
@@ -319,5 +350,6 @@ overwolf.windows.setTopmost('MainWindow', true, noop)
 window.onload = function init() {
   buildMenu()
   selectSpellbook(localStorage.getItem('spellbook') || 'merlins')
+  buildInstructions()
   retry()
 }

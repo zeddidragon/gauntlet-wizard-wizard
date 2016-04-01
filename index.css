@@ -148,12 +148,19 @@ h3 {
   animation-timing-function: linear;
 }
 
-#instructions {
+#instructions, #error {
   position: absolute;
   top: 50%;
   width: 90%;
   text-align: center;
   background-color: rgba(0, 0, 0, 0.7);
   border: medium solid white;
+}
+
+#error {
+  background-color: #640000;
+  color: white;
+  top: initial;
+  bottom: 0;
 }
 
